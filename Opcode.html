@@ -1,0 +1,105 @@
+<html>
+<head>
+	<title>Главная страница</title>
+	  <link rel="stylesheet" type="text/css" href="Content/bootstrap.min-4.0.0.css">
+	  <script src="Content/bootstrap-4.0.0.min.js"></script>
+	  <script src="Content/jquery-3.2.1.min.js"></script>
+	  <style>
+	  .table td { 
+		font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; 
+		font-size: 12px;
+		padding: 0px
+			}
+	  </style>
+</head>
+<body>
+<table class="table border" >
+	<thead>
+		<tr><td>Мнемоника</td><td>bit</td></tr>
+	</thead>
+	<tbody>
+	    <tr><td>NOP</td><td>0000 0000 0000 0000</td></tr>
+		<tr><td>----</td><td>---- ---- ---- ----</td></tr>	
+		<tr><td>SLEEP</td><td>0000 0000 0000 0011</td></tr>
+		<tr><td>CLRWDT</td><td>0000 0000 0000 0100</td></tr>
+		<tr><td>PUSH</td><td>0000 0000 0000 0101</td></tr>	
+		<tr><td>POP</td><td>0000 0000 0000 0110</td></tr>
+		<tr><td>DAW</td><td>0000 0000 0000 0111</td></tr>		
+		<tr><td>TBLRD*</td><td>0000 0000 0000 1000</td></tr>
+		<tr><td>TBLRD*+</td><td>0000 0000 0000 1001</td></tr>
+		<tr><td>TBLRD*-</td><td>0000 0000 0000 1010</td></tr>
+		<tr><td>TBLRD+*</td><td>0000 0000 0000 1011</td></tr>
+		<tr><td>TBLWT*</td><td>0000 0000 0000 1100</td></tr>
+		<tr><td>TBLWT*+</td><td>0000 0000 0000 1101</td></tr>
+		<tr><td>TBLWT*-</td><td>0000 0000 0000 1110</td></tr>
+		<tr><td>TBLWT+*</td><td>0000 0000 0000 1111</td></tr>
+		<tr><td>RETFIE</td><td>0000 0000 0001 000s</td></tr>
+		<tr><td>RETURN</td><td>0000 0000 0001 001s</td></tr>
+		<tr><td>----</td><td>---- ---- ---- ----</td></tr>		
+		<tr><td>RESET</td><td>0000 0000 1111 1111</td></tr>
+		<tr><td>MOVLB</td><td>0000 0001 0000 kkkk</td></tr>
+		<tr><td>----</td><td>---- ---- ---- ----</td></tr>
+		<tr><td>MULWF</td><td>0000 001a ffff ffff</td></tr>
+		<tr><td>DECF</td><td>0000 01da ffff ffff</td></tr>
+		<tr><td>SUBLW</td><td>0000 1000 kkkk kkkk</td></tr>
+		<tr><td>IORLW</td><td>0000 1001 kkkk kkkk</td></tr>
+		<tr><td>XORLW</td><td>0000 1010 kkkk kkkk</td></tr>
+		<tr><td>ANDLW</td><td>0000 1011 kkkk kkkk</td></tr>
+		<tr><td>RETLW</td><td>0000 1100 kkkk kkkk</td></tr>
+		<tr><td>MULLW</td><td>0000 1101 kkkk kkkk</td></tr>
+		<tr><td>MOVLW</td><td>0000 1110 kkkk kkkk</td></tr>
+		<tr><td>ADDLW</td><td>0000 1111 kkkk kkkk</td></tr>
+		<tr><td>IORWF</td><td>0001 00da ffff ffff</td></tr>
+		<tr><td>ANDWF</td><td>0001 01da ffff ffff</td></tr>
+		<tr><td>XORWF</td><td>0001 10da ffff ffff</td></tr>
+		<tr><td>COMF</td><td>0001 11da ffff ffff</td></tr>		
+		<tr><td>ADDWFC</td><td>0010 00da ffff ffff</td></tr>
+		<tr><td>ADDWF</td><td>0010 01da ffff ffff</td></tr>
+        <tr><td>INCF</td><td>0010 10da ffff ffff</td></tr>				
+		<tr><td>DECFSZ</td><td>0010 11da ffff ffff</td></tr>
+		<tr><td>RRCF</td><td>0011 00da ffff ffff</td></tr>
+		<tr><td>RLCF</td><td>0011 01da ffff ffff</td></tr>
+		<tr><td>SWAPF</td><td>0011 10da ffff ffff</td></tr>
+		<tr><td>INCFSZ</td><td>0011 11da ffff ffff</td></tr>
+		<tr><td>RRNCF</td><td>0100 00da ffff ffff</td></tr>
+		<tr><td>RLNCF</td><td>0100 01da ffff ffff</td></tr>
+		<tr><td>INFSNZ</td><td>0100 10da ffff ffff</td></tr>
+		<tr><td>DCFSNZ</td><td>0100 11da ffff ffff</td></tr>		
+		<tr><td>MOVF</td><td>0101 00da ffff ffff</td></tr>
+		<tr><td>SUBFWB</td><td>0101 01da ffff ffff</td></tr>
+		<tr><td>SUBWFB</td><td>0101 10da ffff ffff</td></tr>
+		<tr><td>SUBWF</td><td>0101 11da ffff ffff</td></tr>		
+		<tr><td>CPFSLT</td><td>0110 000a ffff ffff</td></tr>
+		<tr><td>CPFSEQ</td><td>0110 001a ffff ffff</td></tr>
+		<tr><td>CPFSGT</td><td>0110 010a ffff ffff</td></tr>
+		<tr><td>TSTFSZ</td><td>0110 011a ffff ffff</td></tr>
+		<tr><td>SETF</td><td>0110 100a ffff ffff</td></tr>
+		<tr><td>CLRF</td><td>0110 101a ffff ffff</td></tr>
+		<tr><td>NEGF</td><td>0110 110a ffff ffff</td></tr>
+		<tr><td>MOVWF</td><td>0110 111a ffff ffff</td></tr>
+		<tr><td>BTG</td><td>0111 bbba ffff ffff</td></tr>
+		<tr><td>BSF</td><td>1000 bbba ffff ffff</td></tr>
+		<tr><td>BCF</td><td>1001 bbba ffff ffff</td></tr>
+		<tr><td>BTFSS</td><td>1010 bbba ffff ffff</td></tr>
+		<tr><td>BTFSC</td><td>1011 bbba ffff ffff</td></tr>
+		<tr><td>MOVFF</td><td>1100 ffff ffff ffff ffff 1111 ffff ffff ffff ffff</td></tr>
+		<tr><td>BRA</td><td>1101 0nnn nnnn nnnn</td></tr>
+		<tr><td>RCALL</td><td>1101 1nnn nnnn nnnn</td></tr>		
+		<tr><td>BZ</td><td>1110 0000 nnnn nnnn</td></tr>
+		<tr><td>BNZ</td><td>1110 0001 nnnn nnnn</td></tr>
+		<tr><td>BC</td><td>1110 0010 nnnn nnnn</td></tr>
+		<tr><td>BNC</td><td>1110 0011 nnnn nnnn</td></tr>
+		<tr><td>BOV</td><td>1110 0100 nnnn nnnn</td></tr>
+		<tr><td>BNOV</td><td>1110 0101 nnnn nnnn</td></tr>		
+		<tr><td>BN</td><td>1110 0110 nnnn nnnn</td></tr>		
+		<tr><td>BNN</td><td>1110 0111 nnnn nnnn</td></tr>
+		<tr><td>----</td><td>---- ---- ---- ----</td></tr>
+		<tr><td>CALL</td><td>1110 110s kkkk kkkk 1111 kkkk kkkk kkkk</td></tr>		
+		<tr><td>LFSR</td><td>1110 1110 00ff kkkk 1111 0000 kkkk kkkk</td></tr>
+		<tr><td>----</td><td>---- ---- ---- ----</td></tr>		
+		<tr><td>GOTO</td><td>1110 1111 kkkk kkkk 1111 kkkk kkkk kkkk</td></tr>
+		<tr><td>NOP</td><td>1111 xxxx xxxx xxxx</td></tr>		
+	</tbody>
+</table>
+</body>
+</html>
