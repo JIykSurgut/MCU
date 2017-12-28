@@ -37,8 +37,15 @@
 		<tr><td><i>Умножение</i></td><td>k->FSRf</td></tr>
 		<tr><td>MULLW</td><td>k->(W)x k-> PRODH:PRODL</td></tr>
 		<tr><td>MULLF</td><td>k->(W)x(f)-> PRODH:PRODL</td></tr>
-		<tr><td>////</td><td></td></tr>
-		
+		<tr><td><i>Сравнение</i></td><td></td></tr>
+		<tr><td>CPFSEQ</td><td>f - W, skip if f = W</td></tr>
+		<tr><td>CPFSGT</td><td>f - W, skip if f > W</td></tr>
+		<tr><td>CPFSLT</td><td>f - W, skip if f < W</td></tr>
+		<tr><td>TSTFSZ f{a}</td><td>skip if f = 0</td></tr>
+		<tr><td><i>Преобразование</i></td><td></td></tr>
+		<tr><td>DAW</td><td></td></tr>
+		<tr><td>NEGF</td><td></td></tr>
+        <tr><td></td><td></td></tr>		
 		<tr><td><b>Логические операции</b></td><td></td></tr>
 		<tr><td>ANDLW</td><td>(W).AND.k -> W</td></tr>
 		<tr><td>ANDWF</td><td>(W).AND.(f) -> dest</td></tr>
@@ -46,7 +53,13 @@
 		<tr><td>IORWF</td><td>(W).OR.(f) -> dest</td></tr>
 		<tr><td>XORLW</td><td>(W).XOR.k -> W</td></tr>
 		<tr><td>XORWF</td><td>(W).XOR.(f) -> dest</td></tr>
-		<tr><td>Операции ветвтления</td><td></td></tr>
+		<tr><td>Сдвиг</td><td></td></tr>
+		<tr><td>RLCF</td><td></td></tr>
+		<tr><td>RLNCF</td><td></td></tr>
+		<tr><td>RRCF</td><td></td></tr>
+		<tr><td>RRNCF</td><td></td></tr>
+		<tr><td>SWAP f</td><td></td></tr>
+		<tr><td><b>Операции ветвления</b></td><td></td></tr>
 		<tr><td>BC n</td><td>if(C = 1) (PC)+2+2n->PC </td></tr>
 		<tr><td>BN n</td><td>if(N = 1) (PC)+2+2n->PC</td></tr>
 		<tr><td>BNC n</td><td>if(C = 0) (PC)+2+2n->PC</td></tr>
@@ -56,6 +69,9 @@
 		<tr><td>BNZ n</td><td>if(Z = 0) (PC)+2+2n->PC</td></tr>
 		<tr><td>BN n</td><td>if(Z = 1) (PC)+2+2n->PC</td></tr>
 		<tr><td>BRA n</td><td>(PC)+2+2n->PC</td></tr>
+		<tr><td>GOTO k</td><td>k -> PC<20:1></td></tr>
+		<tr><td>CALL</td><td></td></tr>
+		<tr><td>RCALL</td><td></td></tr>
 		<tr><td><b>Битовые операции</b></td><td></td></tr>
 		<tr><td><i>Проверка бита</i></td><td></td></tr>
 		<tr><td>BTFSC</td><td>if(f(b)=0) skip</td></tr>
@@ -65,40 +81,52 @@
 		<tr><td>BSF</td><td>1->f(b)</td></tr>
 		<tr><td>BTG</td><td>~f(b)->f(b)</td></tr>
 		<tr><td>CLRF</td><td>1->Z</td></tr>
+		<tr><td><b>Пересылка данных</b></td><td>-------</td></tr>
+		<tr><td>LFSR f,k</td><td>k -> FSRf</td></tr>
+		<tr><td>MOVF f{,d,{,a}}</td><td>f -> dest</td></tr>
+		<tr><td>MOVFF fs,fd</td><td>fs -> fd</td></tr>
+		<tr><td>MOVLB k</td><td>k -> BSR</td></tr>
+		<tr><td>MOVLW k</td><td>k -> W</td></tr>
+		<tr><td>MOVWF f{,a}</td><td>W -> f</td></tr>		
+		<tr><td>POP</td><td>TOS -> bit bucket</td></tr>
+		<tr><td>PUSH</td><td>(PC + 2) -> TOS</td></tr>
+		<tr><td>RETLW</td><td></td></tr>
+		<tr><td>SETF</td><td></td></tr>
 		<tr><td>///</td><td>-------</td></tr>
-		<tr><td>CALL</td><td></td></tr>
 		<tr><td>CLRWDT</td><td></td></tr>
 		<tr><td>COMF</td><td></td></tr>
-		<tr><td>CPFSEQ</td><td></td></tr>
-		<tr><td>CPFSGT</td><td></td></tr>
-		<tr><td>CPFSLT</td><td></td></tr>
-		<tr><td>DAW</td><td></td></tr>
-		<tr><td>GOTO</td><td></td></tr>
-		<tr><td>MOVF</td><td></td></tr>
-		<tr><td>MOVFF</td><td>fa->fb</td></tr>
-		<tr><td>MOVLW k</td><td>k->BSR</td></tr>
-		<tr><td>MOVLW</td><td>k->W</td></tr>
-		<tr><td>MOVWF</td><td></td></tr>
-		<tr><td>POP</td><td></td></tr>
-		<tr><td>PUSH</td><td></td></tr>
-		<tr><td>RCALL</td><td></td></tr>
+		
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		
+		
 		<tr><td>RESET</td><td></td></tr>
 		<tr><td>RETFIE</td><td></td></tr>
-		<tr><td>RETLW</td><td></td></tr>
+		
 		<tr><td>RETURN</td><td></td></tr>
-		<tr><td>RLCF</td><td></td></tr>
-		<tr><td>RLNCF</td><td></td></tr>
-		<tr><td>RRCF</td><td></td></tr>
-		<tr><td>RRNCF</td><td></td></tr>
-		<tr><td>SETF</td><td></td></tr>
+		
+		
 		<tr><td>SLEEP</td><td></td></tr>
-		<tr><td>SWAP f</td><td></td></tr>
+		
 		<tr><td>TBLRD</td><td></td></tr>
 		<tr><td>TBLWT</td><td></td></tr>
 		<tr><td>TEST</td><td></td></tr>
-		<tr><td>LFSR</td><td>k->FSRf</td></tr>
-		<tr><td>NEGF</td><td></td></tr>
+		
+		
 		<tr><td>NOP</td><td></td></tr>
+		<tr><td>Сокращения</td><td></td></tr>
+		<tr><td>FSR</td><td></td></tr>
+		<tr><td>BSR</td><td></td></tr>
+		<tr><td>SFR</td><td>Special Function Registers</td>Специальные функциональные регистры</tr>
+		<tr><td>W</td><td>WREG - work register</td>аккумулятор</tr>
+		<tr><td>TOS</td><td></td></tr>
 	</tbody>
 </table>
 </body>
