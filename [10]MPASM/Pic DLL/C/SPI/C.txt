@@ -1,0 +1,145 @@
+//I?ioioeiu
+/*
+void SPI1_Init();
+void SPI2_Init();
+char SPI1_Read(char);
+char SPI2_Read(char);
+void SPI1_Write(char);
+void SPI2_Write(char);
+void SPI_Set_Active(char (*)(char), void (*)(char));
+char SPI_Read(char buffer);
+void SPI_Write(char data_);
+
+//Ia?aiaiua
+char (*SPI_Rd_Ptr)(char);
+void (*SPI_Wr_Ptr)(char);
+
+void SPI1_Init(){
+ SSP1CON1.SSPEN = 0;
+ SPI_Rd_Ptr = &SPI1_Read;
+ SPI_Wr_Ptr = &SPI1_Write;
+ TRISC.TRISC5 = 0;
+ TRISC.TRISC3 = 0;
+ TRISC.TRISC4 = 1;
+ SSP1CON1 = 0x00;
+ SSP1STAT = 64;
+ SSP1CON1.SSPEN = 1;
+}
+void SPI2_Init(){
+ SSP1CON1.SSPEN = 0;
+ SPI_Rd_Ptr = &SPI2_Read;
+ SPI_Wr_Ptr = &SPI2_Write;
+ TRISD.TRISD4 = 0;
+ TRISD.TRISD0 = 0;
+ TRISD.TRISD1 = 1;
+ SSP2CON1 = 0x00;
+ SSP2STAT = 64;
+ SSP2CON1.SSPEN = 1;
+}
+
+char SPI1_Read(char buffer){
+   SSP1BUF = buffer;
+   while(!SSP1STAT.BF) asm nop;
+   return SSP1BUF;
+}
+char SPI2_Read(char buffer){
+   SSP2BUF = buffer;
+   while(!SSP2STAT.BF) asm nop;
+   return SSP2BUF;
+}
+
+void SPI1_Write(char data_){
+   SSP1BUF = data_;
+   while(!SSP1STAT.BF) asm nop;
+   R0 = SSP1BUF;
+}
+void SPI2_Write(char data_){
+   SSP2BUF = data_;
+   while(!SSP2STAT.BF) asm nop;
+   R0 = SSP2BUF;
+}
+
+void SPI_Set_Active(char (*read_ptr)(char), void (*write_ptr)(char)){
+ SPI_Rd_Ptr = read_ptr;
+ SPI_Wr_Ptr = write_ptr;
+}
+char SPI_Read(char buffer){
+  return ((*SPI_Rd_Ptr)(buffer));
+}
+void SPI_Write(char data_){
+  ((*SPI_Wr_Ptr)(data_));
+}
+*/
+
+char SPI2_Read(char buffer);
+void SPI2_Write(char data_);
+
+char (*SPI_Rd_Ptr)(char);
+void (*SPI_Wr_Ptr)(char);
+
+/*
+void SPI1_Init_Advanced(char master, char data_sample, char clock_idle, char transmit_edge){
+ SSP1CON1.SSPEN = 0;
+ SPI_Rd_Ptr = &SPI1_Read;
+ SPI_Wr_Ptr = &SPI1_Write;
+ TRISC.TRISC5 = 0;
+ if(master == 4 ) TRISC.TRISC3 = 1;
+    else TRISC.TRISC3 = 0;
+ TRISC.TRISC4 = 1;
+ SSP1CON1 = 0x00;
+ SSP1CON1 |= master;
+ SSP1CON1 |= clock_idle;
+ SSP1CON1 |= data_sample;
+ if(clock_idle) {
+  if(transmit_edge == 0) SSP1STAT.CKE = 1; }
+  else if(transmit_edge) SSP1STAT.CKE = 1;
+ SSP1CON1.SSPEN = 1;
+}
+*/
+void SPI2_Init_Advanced(char master, char data_sample, char clock_idle, char transmit_edge){
+ SSP2CON1.SSPEN = 0;
+ SPI_Rd_Ptr = &SPI2_Read;
+ SPI_Wr_Ptr = &SPI2_Write;
+ TRISD.TRISD4 = 0;
+ TRISD.TRISD0 = 0;
+ TRISD.TRISD1 = 1;
+ SSP2CON1 = 0x00;
+ SSP2CON1 |= master;
+ SSP2CON1 |= clock_idle;
+ SSP2CON1 |= data_sample;
+ if(clock_idle) {
+  if(transmit_edge == 0) SSP2STAT.CKE = 1; }
+  else if(transmit_edge) SSP2STAT.CKE = 1;
+ SSP2CON1.SSPEN = 1;
+}
+
+char SPI2_Read(char buffer){
+   SSP1BUF = buffer;
+   while(!SSP1STAT.BF) asm nop;
+   return SSP1BUF;
+}
+
+void SPI2_Write(char data_){
+   SSP1BUF = data_;
+   while(!SSP1STAT.BF) asm nop;
+   R0 = SSP1BUF;
+}
+
+main(){
+//ff = SPI_Read(0xAA);
+//SPI_Write(0x55);
+//short FARG_SPI1_Read_buffer;
+
+//SPI1_Init();
+//SPI1_Init_Advanced(0, 0, 0, 0);
+SPI2_Init_Advanced(0, 0, 0, 0);
+//SPI1_Read(buffer);
+//SPI1_Write(data_);
+
+//SPI2_Init();
+//SPI2_Init_Advanced(_SPI_MASTER_OSC_DIV4, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
+//SPI2_Read(buffer);
+//SPI2_Write(buffer);
+
+//SPI_Set_Active(&SPI1_Read, &SPI1_Write);
+}

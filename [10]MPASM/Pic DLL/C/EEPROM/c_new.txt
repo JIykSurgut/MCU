@@ -1,0 +1,29 @@
+unsigned short EEPROM_Read(unsigned short address){
+  EEADR = address;
+  EECON1.EEPGD = 0;
+  EECON1.CFGS = 0;
+  EECON1.RD = 1;
+  return EEDATA;
+}
+void EEPROM_Write(unsigned short address, unsigned short data_){
+  while(EECON1.WR);
+  EEADR = address;
+  EEDATA = data_;
+  EECON1.EEPGD = 0;
+  EECON1.CFGS = 0;
+  EECON1.WREN = 1;
+  R0 = INTCON;
+  INTCON.GIE_GIEH = 0;
+  EECON2 = 0x55;
+  EECON2 = 0xAA;
+  EECON1.WR = 1;
+  if(R0.GIE_GIEH) INTCON.GIE_GIEH = 1;
+    else INTCON.GIE_GIEH = 0;
+  EECON1.WREN = 0;
+}
+
+unsigned short result;
+void main() {
+  result = EEPROM_Read(0x3F);
+  EEPROM_Write(0x32, 0x19);
+}

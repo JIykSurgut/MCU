@@ -1,0 +1,4 @@
+void main() {
+EEPROM_Read(0x3F);
+EEPROM_Write(0x32, 0x19);
+}

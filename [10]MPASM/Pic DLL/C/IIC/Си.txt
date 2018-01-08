@@ -1,0 +1,82 @@
+//Prototype
+void I2C1_Init(const unsigned long clock);
+unsigned short I2C1_Is_Idle(void);
+unsigned short I2C1_Start(void);
+void I2C1_Repeated_Start(void);
+void I2C1_Stop(void);
+unsigned short I2C1_Rd(unsigned short ack);
+unsigned short I2C1_Wr(unsigned short data_);
+//End prototype
+
+void I2C1_Init(const unsigned long clock){
+ TRISC.TRISC4 = 0;
+ TRISC.TRISC3 = 0;
+ LATC.LATC4 = 0;
+ LATC.LATC3 = 0;
+ TRISC.TRISC4 = 1;
+ TRISC.TRISC3 = 1;
+ SSP1STAT.SMP = 0;
+ SSP1STAT.CKE = 0;
+ SSP1CON1 = 56;
+}
+
+unsigned short I2C1_Is_Idle(void){
+  if(SSP1STAT.WR==0){
+     if((SSP1CON2 & 31) == 0) return 1;
+  }
+  return 0;
+}
+
+unsigned short I2C1_Start(void){
+  unsigned int j = 0;
+  while(!(j > 4750)){
+     if(I2C1_Is_Idle()) break;
+     j++;
+  }
+  if(!(j < 4751)) return 123;
+  SSP1CON2.SEN = 1;
+  while(SSP1CON2.SEN);
+  return 0;
+}
+
+void I2C1_Repeated_Start(void){
+  SSP1CON2.RSEN = 1;
+  while(SSP1CON2.RSEN);
+}
+
+void I2C1_Stop(void){
+   SSP1CON2.PEN = 1;
+}
+
+unsigned short I2C1_Rd(unsigned short ack){
+  PIR1.SSP1IF = 0;
+  SSP1CON2.RCEN = 1;
+  while(!PIR1.SSP1IF);
+  R1 = SSP1BUF;
+  if(ack != 0) SSP1CON2.ACKDT = 1;
+    else SSP1CON2.ACKDT = 0;
+  PIR1.SSP1IF = 0;
+  SSP1CON2.ACKEN = 1;
+  while(PIR1.SSP1IF);
+  return R1;
+}
+
+unsigned short I2C1_Wr(unsigned short data_){
+  PIR1.SSP1IF = 0;
+  SSP1BUF = data_;
+  while(SSP1STAT.B2);
+  while(!PIR1.SSP1IF);
+  if(!SSP1CON2.ACKSTAT) return 0;
+  SSP1CON2.PEN = 1;
+  return 2;
+}
+
+main(){
+  I2C1_Init(100000);
+  I2C1_Start();
+  I2C1_Is_Idle();
+  I2C1_Repeated_Start();
+  I2C1_Stop();
+  I2C1_Rd(0);
+  I2C1_Wr(0xA3);
+}

@@ -1,0 +1,47 @@
+#include <p18f45k22.inc>
+    org 0x0000
+R0 EQU 0x0000                   ;1 byte
+R1 EQU 0x0001                   ;1 byte
+FARG_abs_a  EQU 0x0015          ;2 byte
+
+    goto _main
+  
+_abs: 		
+    MOVLW       0x80                ;R0 = (FAR[1] XOR 0x80); 
+    XORWF       FARG_abs_a+1, W     ;W = R0 - 0x80;
+    MOVWF       R0                  ;if(W != 0) goto L_abs93
+    MOVLW       0x80                ;
+    SUBWF       R0, W               ;
+    BNZ         L__abs93            ;
+    MOVLW       0x00                ;
+    SUBWF       FARG_abs_a, W       ;W = FAR[0]-0x00
+L__abs93:
+    BC          L_abs0		    ;if(c=1) goto L_abs0 
+    MOVF        FARG_abs_a, W       ;W = FAR[0]
+    SUBLW       0x00                ;W = 0x00 - W
+    MOVWF       R0                  ;R0 = W
+    MOVFF       FARG_abs_a+1, R1    ;R1 = FAR[0]
+    MOVLW       0x00                ;
+    SUBFWB      R1, F               ;R1 = W - R1 - C;
+    BRA         L_end_abs           ;
+L_abs0:
+ 		
+    MOVFF       FARG_abs_a, R0
+    MOVFF       FARG_abs_a+1, R1 		
+L_end_abs:
+    RETURN      0
+
+_main:
+;UARTx_Init.c,3 :: 		void main() {
+;UARTx_Init.c,4 :: 		int a = abs(-6);
+    MOVLW       0xFA  ; -6     ;int FARG_abs_a = -6;
+    MOVWF       FARG_abs_a     ;
+    MOVLW       0xFF  ; -1     ;
+    MOVWF       FARG_abs_a+1   ;
+    RCALL       _abs
+;UARTx_Init.c,6 :: 		}
+L_end_main:
+    BRA         $+0
+; end of _main
+
+    end

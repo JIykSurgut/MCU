@@ -1,0 +1,22 @@
+FARG_Glcd_Set_Side_x_pos EQU 0x0018
+
+;Main	
+MOVLW       255
+MOVWF       FARG_Glcd_Set_Side_x_pos 
+RCALL       _Glcd_Set_Side
+
+;GLCD_Set_Side
+movlw 0x7F    ;защита от выхода за границу 0x7F
+andwf FARG_Glcd_Set_Side_x_pos, 0 ;WREG = x_pos & WREG
+movwf R1 ;R1 = WREG
+movff R1, FARG_Glcd_Set_Side_x_pos  ;x_pos = R1 корректировка
+btfss R1, 0x06 ;проверить 6 бит если 0 то левая часть иначе правая     
+bra L_Glcd_Set_Side_end
+bsf GLCD_Config, GLCD_CS1
+bcf GLCD_Config, GLCD_CS2
+        
+L_Glcd_Set_Side_end:
+bcf GLCD_Config, GLCD_CS1
+bsf GLCD_Config, GLCD_CS2
+return 0
+;end GLCD_Set_Side   

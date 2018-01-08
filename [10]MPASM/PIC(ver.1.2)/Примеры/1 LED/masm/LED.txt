@@ -1,0 +1,78 @@
+#include <p18f45k22.inc>
+R11 EQU  H'000B'
+R12 EQU  H'000C'
+R13 EQU  H'000D'
+ 
+org     0x0000
+Start:
+    goto Main
+    nop
+    nop
+    goto Start
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    bra Start
+    nop
+ Main:   
+    clrf TRISA ;TRISA = 0
+    clrf TRISB
+    clrf TRISC
+    clrf TRISD
+    clrf TRISE
+ L_main0:
+    clrf LATA ;LATA = 0
+    clrf LATB
+    clrf LATC
+    clrf LATD
+    clrf LATE
+    ;Delay_ms(1000);
+    movlw 0x29
+    movwf R11,0
+    movlw 0x96
+    movwf R12,0
+    movlw 0x7F
+    movwf R13,0
+L_main_3:
+    decfsz R13, 1, 0
+    bra L_main_3
+    decfsz R12, 1, 0
+    bra L_main_3
+    decfsz R11, 1, 0
+    bra L_main_3
+    
+    movlw 0xFF ;LATA = 0xFF
+    movwf LATA
+    movlw 0xFF
+    movwf LATB
+    movlw 0xFF
+    movwf LATC
+    movlw 0xFF
+    movwf LATD
+    movlw 0xFF
+    movwf LATE
+    
+    ;Delay_ms(1000);
+    movlw 0x29
+    movwf R11,0
+    movlw 0x96
+    movwf R12,0
+    movlw 0x7F
+    movwf R13,0
+L_main_4:
+    decfsz R13, 1, 0
+    bra L_main_4
+    decfsz R12, 1, 0
+    bra L_main_4
+    decfsz R11, 1, 0
+    bra L_main_4
+    
+    bra L_main0
+    
+    bra  $
+end
+    
+ 

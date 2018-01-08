@@ -1,0 +1,19 @@
+main
+	__CC2DW
+	UART1_Init
+	Glcd_Init
+		Strobe
+			Delay_10us
+	Glcd_Set_Page
+		Strobe
+			Delay_10us
+	Glcd_Set_Side
+	Glcd_Set_X
+		Strobe
+			Delay_10us
+	UART1_Write_Text
+		UART1_Write
+	UART1_Read
+	Glcd_Write_Data
+		Strobe
+			Delay_10us

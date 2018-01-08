@@ -1,0 +1,76 @@
+void UART1_Init(const unsigned long baud_rate){
+  TXSTA1.TXEN = 1;
+  RCSTA1 = 0x90;
+  TRISC.TRISC7 = 1;
+  TRISC.TRISC6 = 0;
+  while(PIR1.RC1IF) R0 = RCREG1;
+}
+
+char UART1_Data_Ready(){
+  return PIR1.RC1IF;
+}
+
+char UART1_Tx_Idle(){
+  return TXSTA1.TRMT;
+}
+
+char UART1_Read(){
+  R1 = RCREG1;
+  if(RCSTA1.OERR) {
+    RCSTA.CREN = 0;
+    RCSTA.CREN = 1;
+  }
+  return R1;
+}
+
+void UART1_Write(char data_){
+  while(TXSTA1.TRMT == 0);
+  TXREG1 = data_;
+}
+
+void UART1_Read_Text(char* Output, char* Delimiter, char Attempts){
+  char out_idx = 0x00;
+  char delim_idx = 0x00;
+  char r_data;
+  while(Attempts){
+    if(Attempts != 0xFF) Attempts--;
+    while(UART1_Data_Ready() == 0 );
+    r_data = UART1_Read();
+    
+    ((char*)Output)[out_idx++] = r_data;
+    
+    if(((char*)Delimiter)[delim_idx] == r_data) delim_idx++;
+      else {
+        delim_idx = 0x00;
+        if(*Delimiter == r_data) delim_idx++;
+      }
+    
+    if( ((char*)Delimiter)[delim_idx] == 0x00){
+       ((char*)Output)[out_idx - delim_idx] = 0x00;
+       return;
+    }
+  }
+  *Output = 0x00;
+}
+
+void UART1_Write_Text(char* uart_text){
+ char counter = 0x00;
+ char data_ = *uart_text;
+ while(data_ != 0x00){
+  UART1_Write(data_);
+  data_ = ((char*)uart_text)[++counter];
+ }
+}
+
+char* output;
+void main() {
+UART1_Init(9600);
+
+if(UART1_Data_Ready()==1){
+  UART1_Read_Text(output, "OK", 10);
+}
+
+if (UART1_Tx_Idle() == 1) {
+   UART1_Write_Text("UART");
+}
+}

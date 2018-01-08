@@ -1,0 +1,133 @@
+<html>
+<head>
+	<title>Главная страница</title>
+	  <link rel="stylesheet" type="text/css" href="Content/bootstrap.min-4.0.0.css">
+	  <script src="Content/bootstrap-4.0.0.min.js"></script>
+	  <script src="Content/jquery-3.2.1.min.js"></script>
+	  <style>
+	  .table td { 
+		font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; 
+		font-size: 12px;
+		padding: 0px;
+		text-align: center;
+			}
+		.disabled {
+		background-color:#F8F8F8;
+		}	
+		.table thead td {
+		width:10%;
+		}
+	  </style>
+</head>
+<body>
+<select id="my_select">
+  <option value="all">all</option>
+  <option value="INT">INT</option>
+  <option value="TMR0">TMR0</option> 
+  <option value="data">data</option>
+</select>
+<div></div>
+<table class="table table-bordered" id="mytable">
+	<thead>
+		<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+	</thead>
+	<tbody>	    
+		<tr id='FF'><td>FF</td><td>TOSU</td><td colspan="3" class="disabled"></td><td colspan="5">Upper Byte TOS<20:16></td></tr>
+		<tr id='FE'><td>FE</td><td>TOSH</td><td colspan="8">High Byte TOS<15:8></td></tr>
+		<tr id='FD'><td>FD</td><td>TOSL</td><td colspan="8">Low Byte TOS<7:0></td></tr>
+		<tr id='FC'><td>FC</td><td>STKPTR</td><td>STKFUL</td><td>STKUNF</td><td class="disabled"></td><td colspan="5">STKPTR<4:0></td></tr>
+		<tr><td>FB</td><td>PCLATU</td><td colspan="3" class="disabled"><td colspan="5">Upper Byte PCLAT<20:16></td></tr>
+		<tr><td>FA</td><td>PCLATH</td><td colspan="8">High Byte PCLAT<15:8></td></tr>
+		<tr><td>F9</td><td>PCL</td><td colspan="8">Low Byte PCLAT<7:0></td></tr>
+		<tr><td>F8</td><td>TBLPTRU</td><td colspan="2" class="disabled"><td colspan="6">Upper Byte TBLPTR<21:16></td></tr>
+		<tr><td>F7</td><td>TBLPTRH</td><td colspan="8">High Byte TBLPTR<15:8></td></tr>
+		<tr><td>F6</td><td>TBLPTRL</td><td colspan="8">Low Byte TBLPTR<7:0></td></tr>
+		<tr><td>F5</td><td>TABLAT</td><td colspan="8">TABLAT<7:0></td></tr>
+		<tr><td>F4</td><td>PRODH</td><td>PROD<15:8></td></tr>
+		<tr><td>F3</td><td>PRODL</td><td>PROD<7:0></td></tr>
+		<tr id='F2'><td>F2</td><td>INTCON</td><td>GIE/GIEH</td><td>PEIE/GIEL</td><td>TMR0IE</td><td>INT0IE</td><td>RBIE</td><td>TMR0IF</td><td>INT0IF</td><td>RBIF</td></tr>
+		<tr id='F1'><td>F1</td><td>INTCON2</td><td>RBPU</td><td>INTEDG0</td><td>INTEDG1</td><td>INTEDG2</td><td class="disabled"></td><td>TMR0IP</td><td class="disabled"></td><td>RBIP</td></tr>
+		<tr id='F0'><td>F0</td><td>INTCON3</td><td>INT2IP</td><td>INT1IP</td><td class="disabled"></td><td>INT2IE</td><td>INT1IE</td><td class="disabled"></td><td>INT2IF</td><td>INT1IF</td></tr>
+		<tr><td>EF</td><td>INDF0</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>EE</td><td>POSTINC0</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>ED</td><td>POSTDEC0</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>EC</td><td>POSTDEC0</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>EB</td><td>PLUSW0</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>EA</td><td>FSR0H</td><td colspan="4" class="disabled"></td><td colspan="4">Hige Byte FSR0<11:8></td></tr>
+		<tr><td>E9</td><td>FSR0L</td><td colspan="8">Low Byte FSR0<7:0></td></tr>
+		<tr><td>E8</td><td>WREG</td><td colspan="8">WREG<7:0></td></tr>
+		<tr><td>E7</td><td>INDF1</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>E6</td><td>POSTINC1</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>E5</td><td>POSTDEC1</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>E4</td><td>PREINC1</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>E3</td><td>PLUSW1</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>E2</td><td>FSR1H</td><td colspan="4" class="disabled"></td><td colspan="4">Hige Byte FSR1<11:8></td></tr>
+		<tr><td>E1</td><td>FSR1L</td><td colspan="8">Low Byte FSR1<7:0></td></tr>
+		<tr><td>E0</td><td>BSR</td><td colspan="4" class="disabled"></td><td colspan="4">BSR<3:0></td></tr>
+		<tr><td>DF</td><td>INDF2</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>DE</td><td>POSTINC2</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>DD</td><td>POSTDEC2</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>DC</td><td>PREINC2</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>DB</td><td>PLUSW2</td><td colspan="8" class="disabled"></td></tr>
+		<tr><td>DA</td><td>FSR2H</td><td colspan="4" class="disabled"></td><td colspan="4">Hige Byte FSR2<11:8></td></tr>
+		<tr><td>D9</td><td>FSR2L</td><td colspan="8">Low Byte FSR2<7:0></td></tr>
+		<tr><td>D8</td><td>STATUS</td><td colspan="3" class="disabled"></td><td>N</td><td>OV</td><td>Z</td><td>DC</td><td>C</td></tr>
+		<tr id='D7'><td>D7</td><td>TMR0H</td><td colspan="8">High Byte TMR0<15:8></td></tr>
+		
+	</tbody>
+</table>
+<script>
+var matrix = {
+all: ['00'],
+data: ['FF','FE','FD','FC','FB','FA','F9','F8','F7','F6','F5','EF','EE','ED','EC','EB','EA','E9','E7','E6','E5','E4','E3','E2','E1','E0','DF','DE','DD','DC','DB','DA','D9'],
+timer: ['D7'],
+interrupt: ['F2','F1','F0']
+}
+var timer = ['D7'];
+var interrupt = ['F2','F1','F0'];
+ $("#my_select" ).change(function() {
+ 
+	var e = document.getElementById ("my_select");
+    var strUser = e.options [e.selectedIndex].value;
+	
+	
+	switch(strUser){
+	case 'TMR0':
+		//arr = timer;
+		arr = matrix.timer;
+		console.log(arr);
+		break;
+		case 'INT':
+		arr = matrix.interrupt;
+		console.log(arr);
+		break;
+		case 'data':
+		arr = matrix.data;
+		console.log(arr);
+		break;
+	}
+	
+	
+	//if(strUser == 'TMR0') {
+	
+	$('#mytable tbody tr').each(function(){
+	var rowId= $(this).attr('id');
+	var row = $(this);
+	row.hide();
+	
+    $.each(arr, function(i, val){
+		if(rowId == val) {row.show(); return false;}
+	});
+	
+		
+		})	
+	//}
+	});
+      
+</script>
+</html>
+
+
+
+
+

@@ -1,0 +1,121 @@
+// glcd pinout settings
+// Glcd module connections
+char GLCD_DataPort at PORTD;
+
+sbit GLCD_CS1 at LATB0_bit;
+sbit GLCD_CS2 at LATB1_bit;
+sbit GLCD_RS  at LATB2_bit;
+sbit GLCD_RW  at LATB3_bit;
+sbit GLCD_EN  at LATB4_bit;
+sbit GLCD_RST at LATB5_bit;
+
+sbit GLCD_CS1_Direction at TRISB0_bit;
+sbit GLCD_CS2_Direction at TRISB1_bit;
+sbit GLCD_RS_Direction  at TRISB2_bit;
+sbit GLCD_RW_Direction  at TRISB3_bit;
+sbit GLCD_EN_Direction  at TRISB4_bit;
+sbit GLCD_RST_Direction at TRISB5_bit;
+// End Glcd module connections
+
+
+void Glcd_Strobe(){
+  Delay_10us();
+  GLCD_EN = 1;
+  Delay_10us();
+  GLCD_EN = 0;
+}
+
+void Glcd_Init(){
+//
+//
+//
+  GLCD_RST_Direction = 0;
+  GLCD_CS1_Direction = 0;
+  GLCD_CS2_Direction = 0;
+  GLCD_RST = 0;
+  TRISD = 0x00;
+  GLCD_RS = 0;
+  GLCD_RW = 0;
+  GLCD_CS1 = 0;
+  GLCD_CS2 = 1;
+  GLCD_RST = 1;
+  GLCD_DataPort = 0x3F;
+  Glcd_Strobe();
+  GLCD_DataPort = 0xC0;
+  Glcd_Strobe();
+  GLCD_CS1 = 1;
+  GLCD_CS2 = 0;
+  GLCD_DataPort = 0x3F;
+  Glcd_Strobe();
+  GLCD_DataPort = 0xC0;
+  Glcd_Strobe();
+}
+
+void Glcd_Set_Page(unsigned short page){
+    GLCD_RS = 0;
+    GLCD_RW = 0;
+    GLCD_DataPort = 0xB8 | page;
+    Glcd_Strobe();
+}
+
+void Glcd_Set_Side(unsigned short x_pos){
+    x_pos = x_pos & 0x7F;
+    if(x_pos & 0x40){
+    GLCD_CS1 = 1;
+    GLCD_CS2 = 0;
+    } else
+    {
+    GLCD_CS1 = 0;
+    GLCD_CS2 = 1;
+    }
+}
+
+void Glcd_Set_X(unsigned short x_pos){
+    x_pos = x_pos & 0x7F;
+    GLCD_RS = 0;
+    GLCD_RW = 0;
+    x_pos = x_pos & 0xBF;
+    x_pos = x_pos | 0x40;
+    GLCD_DataPort = x_pos;
+    Glcd_Strobe();
+}
+
+unsigned short Glcd_Read_Data(){
+    char local;
+    *(&GLCD_DataPort + 18) = 0xFF;
+    Delay_1us();
+    Delay_1us();
+    GLCD_RS = 1;
+    GLCD_EN = 0;
+    GLCD_RW = 1;
+    GLCD_EN = 1;
+    Delay_10us();
+    local = GLCD_DataPort;
+    GLCD_EN = 0;
+    GLCD_RW = 0;
+    Delay_1us();
+    Delay_1us();
+    *(&GLCD_DataPort + 18) = 0x00;
+    return local;
+}
+
+void Glcd_Write_Data(unsigned short ddata){
+    GLCD_EN = 0;
+    GLCD_RS = 1;
+    GLCD_RW = 0;
+    GLCD_DataPort = ddata;
+    Glcd_Strobe();
+}
+
+void main() {
+ANSELB = 0x00;
+ANSELD = 0x00;
+
+Glcd_Init();
+Glcd_Set_Page(0x05);   //0..7
+Glcd_Set_Side(0x06);   //0..127
+Glcd_Set_X(0x07);  //0..63
+Glcd_Read_Data();
+Glcd_Write_Data(0xAA);
+
+}

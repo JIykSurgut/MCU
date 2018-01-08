@@ -1,0 +1,42 @@
+unsigned ADC_Get_Sample(char);
+
+unsigned (*ADC_Get_Sample_Ptr)(char);
+
+ADC_Init(){
+  ADC_Get_Sample_Ptr = &ADC_Get_Sample;
+  ADCON0 = 0;
+  ADCON2 |= 7;
+  ADCON2.ADFM = 1;
+  ADCON2.ADCS0 = 1;
+}
+
+unsigned ADC_Get_Sample(char channel){
+  ADCON0 &= 131;
+  ADCON0  |= (channel << 2);
+  Delay_22us();
+  ADCON0.GO_DONE = 1;
+  while(ADCON0.GO_DONE);
+  return ADRES;
+}
+
+unsigned ADC_Read(char channel){
+ADCON0 = 0;
+ADCON2 |= 7;               //выбор источника тактового сигнала
+ADCON2.ADFM = 1;           //выбор формата
+ADCON0  |= (channel << 2); //выбор канала
+ADCON0.ADON = 1;           //вкл. модуля АЦП 
+Delay_22us();
+ADCON0.GO_DONE = 1;        //модуль выполняет работу
+while(ADCON0.GO_DONE);     //ожидание
+//две последние строки отличаются от исх. кода
+ADCON0.ADON = 0;           //выкл. АЦП
+return ADRES;              //чтение результата
+}
+
+
+  unsigned yy;
+main(){
+   ADC_Init();
+   yy = ADC_Get_Sample(2);
+   ADC_Read(2);
+}

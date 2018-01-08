@@ -1,0 +1,192 @@
+#include <p18f45k22.inc>
+R0 EQU 0x0000 ;1byte
+R1 EQU 0x0000 ;1byte     
+I2C1_Start_j_L0 EQU 0x0015      ;2byte
+FARG_I2C1_Init_clock EQU 0x0015 ;4byte
+FARG_I2C1_Rd_ack EQU 0x0015     ;1byte
+FARG_I2C1_Wr_data_ EQU 0x015    ;1Byte
+ 
+    org 0x0000
+
+    GOTO        _main
+    NOP
+    NOP
+    GOTO        0
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    BRA         0
+
+;unsigned short I2C1_Is_Idle(void)
+_I2C1_Is_Idle:
+    BTFSC       SSP1STAT, 1 
+    BRA         L_I2C1_Is_Idle0
+    MOVLW       31
+    ANDWF       SSP1CON2, 0 
+    MOVWF       R1 
+    MOVF        R1, 0 
+    XORLW       0
+    BNZ         L_I2C1_Is_Idle0
+    MOVLW       1
+    MOVWF       R0 
+    BRA         L_end_I2C1_Is_Idle
+L_I2C1_Is_Idle0:
+    CLRF        R0 
+L_end_I2C1_Is_Idle:
+    RETURN      0
+
+;void I2C1_Repeated_Start(void)    
+_I2C1_Repeated_Start:
+    BSF         SSP1CON2, 1 
+L_I2C1_Repeated_Start0:
+    BTFSS       SSP1CON2, 1 
+    BRA         L_end_I2C1_Repeated_Start
+    BRA         L_I2C1_Repeated_Start0
+L_end_I2C1_Repeated_Start:
+    RETURN      0
+
+;void I2C1_Stop(void)   
+_I2C1_Stop:
+    BSF         SSP1CON2, 2 
+L_end_I2C1_Stop:
+    RETURN      0
+
+;unsigned short I2C1_Rd(unsigned short ack);    
+_I2C1_Rd:
+    BCF         PIR1, 3 
+    BSF         SSP1CON2, 3 
+L_I2C1_Rd0:
+    BTFSC       PIR1, 3 
+    BRA         L_I2C1_Rd1
+    BRA         L_I2C1_Rd0
+L_I2C1_Rd1:
+    MOVFF       SSP1BUF, R1
+    MOVF        FARG_I2C1_Rd_ack, 0 
+    XORLW       0
+    BZ          L_I2C1_Rd2
+    BSF         SSP1CON2, 5 
+    BRA         L_I2C1_Rd3
+L_I2C1_Rd2:
+    BCF         SSP1CON2, 5 
+L_I2C1_Rd3:
+    BCF         PIR1, 3 
+    BSF         SSP1CON2, 4 
+L_I2C1_Rd4:
+    BTFSS       PIR1, 3 
+    BRA         L_I2C1_Rd5
+    BRA         L_I2C1_Rd4
+L_I2C1_Rd5:
+    MOVFF       R1, R0
+L_end_I2C1_Rd:
+    RETURN      0
+
+;void I2C1_Init(const unsigned long clock)    
+_I2C1_Init:
+    BCF         TRISC, 4 
+    BCF         TRISC, 3 
+    BCF         LATC, 4 
+    BCF         LATC, 3 
+    BSF         TRISC, 4 
+    BSF         TRISC, 3 
+    BCF         SSP1STAT, 7 
+    BCF         SSP1STAT, 6 
+    MOVLW       56
+    MOVWF       SSP1CON1 
+L_end_I2C1_Init:
+    RETURN      0
+
+;unsigned short I2C1_Start(void);    
+_I2C1_Start:
+    CLRF        I2C1_Start_j_L0 
+    CLRF        I2C1_Start_j_L0+1 
+L_I2C1_Start0:
+    MOVF        I2C1_Start_j_L0+1, 0 
+    SUBLW       .18
+    BNZ         L_I2C1_Start1
+    MOVF        I2C1_Start_j_L0, 0 
+    SUBLW       .142
+L_I2C1_Start1:
+    BNC         L_I2C1_Start3
+    RCALL       _I2C1_Is_Idle
+    MOVF        R0, 1 
+    BZ          L_I2C1_Start2
+    BRA         L_I2C1_Start3
+L_I2C1_Start2:
+    INFSNZ      I2C1_Start_j_L0, 1 
+    INCF        I2C1_Start_j_L0+1, 1 
+    BRA         L_I2C1_Start0
+L_I2C1_Start3:
+    MOVLW       .18
+    SUBWF       I2C1_Start_j_L0+1, 0 
+    BNZ         L_I2C1_Start4
+    MOVLW       .143
+    SUBWF       I2C1_Start_j_L0, 0 
+L_I2C1_Start4:
+    BNC         L_I2C1_Start5
+    MOVLW       .123
+    MOVWF       R0 
+    BRA         L_end_I2C1_Start
+L_I2C1_Start5:
+    BSF         SSP1CON2, 0 
+L_I2C1_Start6:
+    BTFSS       SSP1CON2, 0 
+    BRA         L_I2C1_Start7
+    BRA         L_I2C1_Start6
+L_I2C1_Start7:
+    CLRF        R0 
+L_end_I2C1_Start:
+    RETURN      0
+
+;unsigned short I2C1_Wr(unsigned short data_);    
+_I2C1_Wr:
+    BCF         PIR1, 3 
+    MOVFF       FARG_I2C1_Wr_data_, SSP1BUF
+L_I2C1_Wr16:
+    BTFSS       SSP1STAT, 2 
+    BRA         L_I2C1_Wr17
+    BRA         L_I2C1_Wr16
+L_I2C1_Wr17:
+L_I2C1_Wr18:
+    BTFSC       PIR1, 3 
+    BRA         L_I2C1_Wr19
+    BRA         L_I2C1_Wr18
+L_I2C1_Wr19:
+    BTFSC       SSP1CON2, 6 
+    BRA         L_I2C1_Wr20
+    CLRF        R0 
+    BRA         L_end_I2C1_Wr
+L_I2C1_Wr20:
+    BSF         SSP1CON2, 2 
+    MOVLW       2
+    MOVWF       R0 
+L_end_I2C1_Wr:
+    RETURN      0
+
+_main:
+;main(){
+;I2C1_Init(100000);
+    MOVLW       80
+    MOVWF       SSP1ADD 
+    RCALL       _I2C1_Init
+;I2C1_Start();
+    RCALL       _I2C1_Start
+;I2C1_Is_Idle();
+    RCALL       _I2C1_Is_Idle
+;I2C1_Repeated_Start();
+    RCALL       _I2C1_Repeated_Start
+;I2C1_Stop();
+    RCALL       _I2C1_Stop
+;I2C1_Rd(0);
+    CLRF        FARG_I2C1_Rd_ack 
+    RCALL       _I2C1_Rd
+;I2C1_Wr(0xA3);
+    MOVLW       .163
+    MOVWF       FARG_I2C1_Wr_data_ 
+    RCALL       _I2C1_Wr
+L_end_main:
+    BRA         $+0
+
+    end

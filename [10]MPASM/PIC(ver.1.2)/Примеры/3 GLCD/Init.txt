@@ -1,0 +1,96 @@
+#include <p18f45k22.inc>
+;Описание подключения
+GLCD_DataPort EQU PORTD ;порт данных
+GLCD_DataPort_Direction EQU TRISD; триса для порта данных 
+ 
+GLCD_Config EQU PORTB ;порт с конфигурациями 
+
+;биты порта конфигураций
+GLCD_CS1 EQU LATB0 ;первый кристал
+GLCD_CS2 EQU LATB1 ;второй кристал
+GLCD_RS  EQU LATB2 ;данные(1)/команды(0)
+GLCD_RW  EQU LATB3 ;чтение(1)/запись(0)
+GLCD_EN  EQU LATB4 ;стробирование
+GLCD_RST EQU LATB5 ;сброс(0)   
+
+;триса для конфигураций
+GLCD_CS1_Direction EQU TRISB0 
+GLCD_CS2_Direction EQU TRISB1 
+GLCD_RS_Direction  EQU TRISB2 
+GLCD_RW_Direction  EQU TRISB3 
+GLCD_EN_Direction  EQU TRISB4 
+GLCD_RST_Direction EQU TRISB5 
+ 
+R13 EQU 0x000D ;переменная для задержки
+ 
+org     0x0000
+Start:
+    goto Main
+
+;задержка на 10us
+_Delay_10us:
+    movlw 0x3A
+    movwf R13, 0
+L_Delay_10us1:
+    decfsz R13, 1, 0
+    bra L_Delay_10us1
+    nop
+    return 0
+;end задержка
+
+;стробирование
+_GLCD_Strobe:
+rcall _Delay_10us
+bsf GLCD_Config, GLCD_EN ;установить строб
+rcall _Delay_10us
+bcf GLCD_Config, GLCD_EN ;сбросить строб
+return 0    
+;end стробирование    
+    
+;инициализация
+_Glcd_Init:
+bcf GLCD_DataPort_Direction, GLCD_CS1_Direction ;выход(0)
+bcf GLCD_DataPort_Direction, GLCD_CS2_Direction ;выход(0)    
+bcf GLCD_DataPort_Direction, GLCD_RS_Direction  ;выход(0)
+bcf GLCD_DataPort_Direction, GLCD_RW_Direction  ;выход(0)
+bcf GLCD_DataPort_Direction, GLCD_EN_Direction  ;выход(0)    
+bcf GLCD_DataPort_Direction, GLCD_RST_Direction ;выход(0)
+
+bcf  GLCD_Config, GLCD_RST ;состояние сброса      
+clrf GLCD_DataPort_Direction  ;порт данных выход 
+bcf  GLCD_Config, GLCD_RS ;команды(0)
+bcf  GLCD_Config, GLCD_RW ;запись(0)
+bcf  GLCD_Config, GLCD_CS1 ;выбрать первый кристал - CS1(0)
+bsf  GLCD_Config, GLCD_CS1 ;не выбирать второй кристал - CS2(1)
+bsf  GLCD_Config, GLCD_RST ;нормальное состояние
+
+movlw 0x3F          ;вкл дисплей
+movwf GLCD_DataPort   
+rcall _GLCD_Strobe    
+
+movlw 0xC0          ;строка ОЗУ = 0(начало - верхний левый угол)
+movwf GLCD_DataPort   
+rcall _GLCD_Strobe   
+    
+bsf GLCD_Config, GLCD_CS1 ;не выбирать CS1(1)
+bcf GLCD_Config, GLCD_CS2 ;выбрать CS2(0)
+    
+movlw 0x3F          ;вкл дисплей
+movwf GLCD_DataPort   
+rcall _GLCD_Strobe    
+
+movlw 0xC0          ;строка ОЗУ = 0(начало - верхний левый угол)
+movwf GLCD_DataPort   
+rcall _GLCD_Strobe  
+    
+return 0    
+;end инициализация    
+    
+Main:
+movlb 0x0F ;банк 15
+clrf ANSELB, 1  ;порт В = config цифровой
+clrf ANSELD, 1  ;порт D = Data цифровой  
+rcall _Glcd_Init
+    
+BRA         $
+end

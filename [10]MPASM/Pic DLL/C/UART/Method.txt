@@ -1,0 +1,14 @@
+01. void UARTx_Init(const unsigned long baud_rate);
+02. char UARTx_Data_Ready();
+03. char UARTx_Tx_Idle();
+04. char UARTx_Read();
+05. void UARTx_Read_Text(char* Output, char* Delimiter, char Attempts);
+06. void UARTx_Write(char data_);
+07. void UARTx_Write_Text(char* UART_text);
+08. void UART_Set_Active(char (*read_ptr)(), void (*write_ptr)(unsigned char data_), char (*ready_ptr)(), char (*tx_idle_ptr)());
+09. char UART_Data_Ready();
+10. char UART_Tx_Idle();
+11. char UART_Read();
+12. void UART_Read_Text(char* Output, char* Delimiter, char Attempts);
+13. void UART_Write(char data_);
+14. void UART_Write_Text(char* UART_text);

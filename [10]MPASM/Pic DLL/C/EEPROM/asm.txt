@@ -1,0 +1,66 @@
+#include <p18f45k22.inc>
+    org 0x0000
+R0 EQU 0x0000                   ;1 byte
+FARG_EEPROM_Write_address EQU 0x0015
+FARG_EEPROM_Read_address EQU 0x0015
+FARG_EEPROM_Write_data_ EQU 0x0016
+ 
+    goto _main
+
+_EEPROM_Write: 		
+L_EEPROM_Write0:
+    btfss       EECON1, WR 
+    bra         L_EEPROM_Write1		
+    nop
+    bra         L_EEPROM_Write0
+L_EEPROM_Write1:
+    movff       FARG_EEPROM_Write_address, EEADR		
+    movff       FARG_EEPROM_Write_data_, EEDATA
+    bcf         EECON1, EEPGD 
+    bcf         EECON1, CFGS 		     		
+    bsf         EECON1, WREN    
+    movff       INTCON, R0		   
+    bcf         INTCON, GIE_GIEH 		
+    movlw       0x55
+    movwf       EECON2 		
+    movlw       0xAA
+    movwf       EECON2 		
+    bsf         EECON1, WR 		
+    btfsc       R0, GIE_GIEH 
+    bra         L__EEPROM_Write2
+    bcf         INTCON, GIE_GIEH 
+    bra         L__EEPROM_Write3
+L__EEPROM_Write2:
+    bsf         INTCON, GIE_GIEH 
+L__EEPROM_Write3:		
+    bcf         EECON1, WREN 
+L_end_EEPROM_Write:
+    return      0
+
+_EEPROM_Read:			
+    movff       FARG_EEPROM_Read_address, EEADR		
+    bcf         EECON1, EEPGD  	
+    bcf         EECON1, CFGS 	
+    bsf         EECON1, RD 		
+    movff       EEDATA, R0 		
+L_end_EEPROM_Read:
+    return      0
+    
+_main:
+;void main() {
+;EEPROM_Read(0x3F);
+    movlw       0x3F
+    movwf       FARG_EEPROM_Read_address 
+    rcall       _EEPROM_Read
+;EEPROM_Write(0x32, 0x19);
+    movlw       0x32
+    movwf       FARG_EEPROM_Write_address 
+    movlw       0x19
+    movwf       FARG_EEPROM_Write_data_ 
+    rcall       _EEPROM_Write
+;}
+L_end_main:
+    bra         $+0
+
+    end
+    

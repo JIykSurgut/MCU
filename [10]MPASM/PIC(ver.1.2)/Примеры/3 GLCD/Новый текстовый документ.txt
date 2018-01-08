@@ -1,0 +1,24 @@
+R0  EQU 0x0000 
+FARG_Glcd_Set_X_x_pos EQU 0x0018
+
+;Main
+MOVLW       10
+MOVWF       FARG_Glcd_Set_X_x_pos 
+RCALL       _Glcd_Set_X
+
+;GLCD_Set_X
+movlw 0x7F
+andwf FARG_Glcd_Set_X_x_pos, 0
+movwf R0
+movwf R0, FARG_Glcd_Set_X_x_pos     
+bcf GLCD_Config, GLCD_RS
+bcf GLCD_Config, GLCD_RW    
+movlw 0xBF
+andwf R0, 1
+movff R0, FARG_Glcd_Set_X_x_pos    
+bsf R0, 6
+movff R0, FARG_Glcd_Set_X_x_pos
+movff R0, GLCD_DataPort    
+rcall _GLCD_Strobe       
+return 0
+;end GLCD_Set_X  
