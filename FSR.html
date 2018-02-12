@@ -10,34 +10,56 @@
 		font-size: 12px;
 		padding: 0px
 			}
+	  .portA {
+	  background: yellow
+	  }
+	  .portB {
+	  background: #c5d9f1
+	  }
+	  .portC {
+	  background: #fabf8f
+	  }
+	  .portD {
+	  background: #9bbb59
+	  }
+	  .portE {
+	  background: #ccc0da
+	  }
 	  </style>
 </head>
 <body>
-<table>
+<select id="my_select">
+  <option value="all">all</option>
+  <option value="Analog">Analog</option>
+  <option value="Comparator">Comparator</option> 
+  <option value="data">data</option>
+</select>
+
+<table border='1'>
 	<thead>
-		<tr><td>Мнемоника</td><td>bit</td></tr>
+		<tr><td></td><td></td><td>bit</td><td></td><td>bit</td><td></td></tr>
 	</thead>
 	<tbody>
-	    <tr><td pinName =  '1'>RE3</td><td>1</td><td>---</td><td>40</td><td pinName = '40'>RB7</td></tr>
-		<tr><td pinName =  '2'>RA0</td><td>2</td><td>---</td><td>39</td><td pinName = '39'>RB6</td></tr>
-		<tr><td pinName =  '3'>RA1</td><td>3</td><td>---</td><td>38</td><td pinName = '38'>RB5</td></tr>
-		<tr><td pinName =  '4'>RA2</td><td>4</td><td>---</td><td>37</td><td pinName = '37'>RB4</td></tr>
-		<tr><td pinName =  '5'>RA3</td><td>5</td><td>---</td><td>36</td><td pinName = '36'>RB3</td></tr>
-		<tr><td pinName =  '6'>RA4</td><td>6</td><td>---</td><td>35</td><td pinName = '35'>RB2</td></tr>
-		<tr><td pinName =  '7'>RA5</td><td>7</td><td>---</td><td>34</td><td pinName = '34'>RB1</td></tr>
-		<tr><td pinName =  '8'>RE1</td><td>8</td><td>---</td><td>33</td><td pinName = '33'>RB0</td></tr>
-		<tr><td pinName =  '9'>RE2</td><td>9</td><td>---</td><td>32</td><td pinName = '32'>--</td></tr>
-		<tr><td pinName = '10'>RE3</td><td>10</td><td>---</td><td>31</td><td pinName = '31'>--</td></tr>
-		<tr><td pinName = '11'>---</td><td>11</td><td>---</td><td>30</td><td pinName = '30'>RD7</td></tr>
-		<tr><td pinName = '12'>---</td><td>12</td><td>---</td><td>29</td><td pinName = '29'>RD6</td></tr>
-		<tr><td pinName = '13'>RA7</td><td>13</td><td>---</td><td>28</td><td pinName = '28'>RD5</td></tr>
-		<tr><td pinName = '14'>RA6</td><td>14</td><td>---</td><td>27</td><td pinName = '27'>RD4</td></tr>
-		<tr><td pinName = '15'>RC0</td><td>15</td><td>---</td><td>26</td><td pinName = '26'>RC7</td></tr>
-		<tr><td pinName = '16'>RC1</td><td>16</td><td>---</td><td>25</td><td pinName = '25'>RC6</td></tr>
-		<tr><td pinName = '17'>RC2</td><td>17</td><td>---</td><td>24</td><td pinName = '24'>RC5</td></tr>
-		<tr><td pinName = '18'>RC3</td><td>18</td><td>---</td><td>23</td><td pinName = '23'>RC4</td></tr>
-		<tr><td pinName = '19'>RD0</td><td>19</td><td>---</td><td>22</td><td pinName = '22'>RC3</td></tr>
-		<tr><td pinName = '20'>RD1</td><td>20</td><td>---</td><td>21</td><td pinName = '21'>RC2</td></tr>
+	    <tr><td pinName =  '1'></td><td class='portE'>RE3</td><td> 1</td><td>---</td><td>40</td><td class='portB'>RB7</td><td pinName = '40'></td></tr>
+		<tr><td pinName =  '2'></td><td class='portA'>RA0</td><td> 2</td><td>---</td><td>39</td><td class='portB'>RB6</td><td pinName = '39'></td></tr>
+		<tr><td pinName =  '3'></td><td class='portA'>RA1</td><td> 3</td><td>---</td><td>38</td><td class='portB'>RB5</td><td pinName = '38'></td></tr>
+		<tr><td pinName =  '4'></td><td class='portA'>RA2</td><td> 4</td><td>---</td><td>37</td><td class='portB'>RB4</td><td pinName = '37'></td></tr>
+		<tr><td pinName =  '5'></td><td class='portA'>RA3</td><td> 5</td><td>---</td><td>36</td><td class='portB'>RB3</td><td pinName = '36'></td></tr>
+		<tr><td pinName =  '6'></td><td class='portA'>RA4</td><td> 6</td><td>---</td><td>35</td><td class='portB'>RB2</td><td pinName = '35'></td></tr>
+		<tr><td pinName =  '7'></td><td class='portA'>RA5</td><td> 7</td><td>---</td><td>34</td><td class='portB'>RB1</td><td pinName = '34'></td></tr>
+		<tr><td pinName =  '8'></td><td class='portE'>RE1</td><td> 8</td><td>---</td><td>33</td><td class='portB'>RB0</td><td pinName = '33'></td></tr>
+		<tr><td pinName =  '9'></td><td class='portE'>RE2</td><td> 9</td><td>---</td><td>32</td><td>---</td><td pinName = '32'></td></tr>
+		<tr><td pinName = '10'></td><td class='portE'>RE3</td><td>10</td><td>---</td><td>31</td><td>---</td><td pinName = '31'></td></tr>
+		<tr><td pinName = '11'></td>              <td>---</td><td>11</td><td>---</td><td>30</td><td class='portD'>RD7</td><td pinName = '30'></td></tr>
+		<tr><td pinName = '12'></td>              <td>---</td><td>12</td><td>---</td><td>29</td><td class='portD'>RD6</td><td pinName = '29'></td></tr>
+		<tr><td pinName = '13'></td><td class='portA'>RA7</td><td>13</td><td>---</td><td>28</td><td class='portD'>RD5</td><td pinName = '28'></td></tr>
+		<tr><td pinName = '14'></td><td class='portA'>RA6</td><td>14</td><td>---</td><td>27</td><td class='portD'>RD4</td><td pinName = '27'></td></tr>
+		<tr><td pinName = '15'></td><td class='portC'>RC0</td><td>15</td><td>---</td><td>26</td><td class='portC'>RC7</td><td pinName = '26'></td></tr>
+		<tr><td pinName = '16'></td><td class='portC'>RC1</td><td>16</td><td>---</td><td>25</td><td class='portC'>RC6</td><td pinName = '25'></td></tr>
+		<tr><td pinName = '17'></td><td class='portC'>RC2</td><td>17</td><td>---</td><td>24</td><td class='portC'>RC5</td><td pinName = '24'></td></tr>
+		<tr><td pinName = '18'></td><td class='portC'>RC3</td><td>18</td><td>---</td><td>23</td><td class='portC'>RC4</td><td pinName = '23'></td></tr>
+		<tr><td pinName = '19'></td><td class='portD'>RD0</td><td>19</td><td>---</td><td>22</td><td class='portC'>RC3</td><td pinName = '22'></td></tr>
+		<tr><td pinName = '20'></td><td class='portD'>RD1</td><td>20</td><td>---</td><td>21</td><td class='portC'>RC2</td><td pinName = '21'></td></tr>
 	</tbody>
 </table> 
 
@@ -73,11 +95,35 @@ var CTMU = ['none',
 '',
 
 ]
+
+ $("#my_select" ).change(function() {
+ 
+	var e = document.getElementById ("my_select");
+    var strUser = e.options [e.selectedIndex].value;
+	
+	
+	switch(strUser){
+	case 'Analog':
+		//arr = timer;
+		arr = Analog;
+		console.log(arr);
+		break;
+		case 'Comparator':
+		arr = Comparator;
+		console.log(arr);
+		break;
+		case 'data':
+		arr = matrix.data;
+		console.log(arr);
+		break;
+	}
+
 for(var i=1; i<=40; i++)
 {
 $('td[pinName='+i+']').text(arr[i]);
 }
 
+})
 </script>
 
 </html>
